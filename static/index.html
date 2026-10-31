@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Cadillac Cookie Company</title>
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <!-- Datadog Browser RUM -->
+  <script 
+    src="https://www.datadoghq-browser-agent.com/us1/v7/datadog-rum.js" 
+    type="text/javascript"
+    crossorigin="anonymous">
+  </script>
+  <script>
+    window.DD_RUM && window.DD_RUM.init({
+      clientToken: 'pub8b6c0641d578fc435196f9262b5f8228',
+      applicationId: '9a55866e-ea9c-42b4-a1f3-75dbaac5ace0',
+      site: 'datadoghq.com',
+      service: 'cadillac-cookie-web',
+      env: 'dev',
+      version: '1.0.0',
+      sessionSampleRate: 100,
+      sessionReplaySampleRate: 100,
+      trackUserInteractions: true,
+      trackResources: true,
+      trackLongTasks: true,
+      defaultPrivacyLevel: 'mask-user-input'
+    });
+  </script>
+</head>
+<body class="bg-neutral-950 text-neutral-100 flex flex-col items-center justify-center min-h-screen p-4 font-sans antialiased">
+  <div class="max-w-lg w-full bg-neutral-900 rounded-2xl p-8 shadow-2xl border border-neutral-800">
+    <!-- Cookie Icon Badge -->
+    <div class="flex items-center justify-center mb-5">
+      <div class="w-12 h-12 rounded-full bg-amber-400/10 border border-amber-400/20 flex items-center justify-center text-amber-400 shadow-sm">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M12 2a10 10 0 1 0 10 10 4 4 0 0 1-5-5 4 4 0 0 1-5-5" />
+          <path d="M8.5 8.5v.01" />
+          <path d="M16 15.5v.01" />
+          <path d="M12 12v.01" />
+          <path d="M11 17v.01" />
+          <path d="M7 13v.01" />
+        </svg>
+      </div>
+    </div>
+
+    <div class="mb-6 text-center">
+      <h1 class="text-3xl font-extrabold tracking-tight text-amber-400">The Cadillac Cookie Company</h1>
+      <p class="text-neutral-400 text-sm mt-1">Bespoke Curation & Precision Baking</p>
+    </div>
+
+    <div class="space-y-4">
+      <div>
+        <label for="flavorPref" class="block text-xs uppercase tracking-wider text-neutral-400 font-semibold mb-2 text-left">Cookie Preference</label>
+        <input 
+          id="flavorPref" 
+          type="text" 
+          placeholder="e.g., dark chocolate sea salt, bourbon pecan" 
+          class="w-full px-4 py-3 rounded-lg bg-neutral-950 border border-neutral-800 text-neutral-100 placeholder-neutral-600 focus:outline-none focus:ring-2 focus:ring-amber-400 focus:border-transparent transition"
+        />
+      </div>
+
+      <button 
+        id="orderBtn" 
+        onclick="requestCuration()" 
+        class="w-full bg-amber-500 hover:bg-amber-400 text-neutral-950 font-bold py-3.5 px-4 rounded-lg shadow-md hover:shadow-lg transition duration-150 disabled:opacity-50">
+        Request Concierge Curation
+      </button>
+    </div>
+
+    <div id="resultBox" class="mt-6 p-4 rounded-lg bg-neutral-950 border border-neutral-800 hidden">
+      <p id="resultStatus" class="text-xs uppercase tracking-wider font-semibold mb-1"></p>
+      <p id="resultText" class="text-sm leading-relaxed"></p>
+    </div>
+  </div>
+
+  <script>
+    async function requestCuration() {
+      const flavorInput = document.getElementById('flavorPref');
+      const btn = document.getElementById('orderBtn');
+      const box = document.getElementById('resultBox');
+      const status = document.getElementById('resultStatus');
+      const text = document.getElementById('resultText');
+
+      const flavor = flavorInput.value.trim() || 'bourbon pecan';
+      
+      btn.disabled = true;
+      box.classList.remove('hidden');
+      status.innerText = "Processing";
+      status.className = "text-xs uppercase tracking-wider font-semibold mb-1 text-amber-400";
+      text.innerText = "Consulting the flavor concierge and recording transaction...";
+
+      try {
+        const response = await fetch('/api/cookie-concierge', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ preference: flavor })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+          throw new Error(data.detail || `Server error (${response.status})`);
+        }
+
+        status.innerText = "Curated Recommendation";
+        status.className = "text-xs uppercase tracking-wider font-semibold mb-1 text-emerald-400";
+        text.innerText = data.recommendation;
+      } catch (err) {
+        status.innerText = "Failure";
+        status.className = "text-xs uppercase tracking-wider font-semibold mb-1 text-rose-500";
+        text.innerText = err.message;
+      } finally {
+        btn.disabled = false;
+      }
+    }
+  </script>
+</body>
+</html>
