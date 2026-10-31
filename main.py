@@ -51,7 +51,7 @@ def cookie_concierge(req: ConciergeRequest):
                 f"Provide a rich, 2-sentence luxury cookie pairing and flavor profile for: '{preference}'."
             )
             response = client.models.generate_content(
-                model="gemini-2.5-flash",
+                model="gemini-3.6-flash",
                 contents=prompt,
             )
             

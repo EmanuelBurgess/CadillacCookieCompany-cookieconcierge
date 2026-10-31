@@ -10,7 +10,7 @@ The Cookie Concierge simulates a high-end bakery e-commerce workflow with dynami
 
 * **Frontend**: Responsive UI built with Tailwind CSS and instrumented with **Datadog Real User Monitoring (RUM)** to capture user journeys, Core Web Vitals, and browser interactions.
 * **Backend**: Asynchronous **FastAPI** service wrapped with `ddtrace` for distributed tracing and performance metrics.
-* **AI Orchestration**: Integrated with **Google Gemini 2.5 Flash** for natural-language pairing suggestions, custom recipe notes, and flavor curation.
+* **AI Orchestration**: Integrated with **Google Gemini 3.6 Flash** for natural-language pairing suggestions, custom recipe notes, and flavor curation.
 * **Database**: **Supabase (PostgreSQL)** managing orders, product inventories, and dynamic `curator_notes`.
 * **Hosting & Infrastructure**: **AWS EC2 (Ubuntu Linux)** managed via `systemd` alongside a host-level **Datadog Agent**.
 
@@ -66,7 +66,7 @@ This application is designed to demonstrate full-lifecycle observability:
 
 * **Language & Runtime**: Python 3.10+
 * **Framework**: FastAPI, Uvicorn
-* **AI/LLM**: Google Gemini 2.5 Flash API
+* **AI/LLM**: Google Gemini 3.6 Flash API
 * **Database**: Supabase (PostgreSQL)
 * **Observability**:
   * `datadog-agent` (v7+)
