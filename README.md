@@ -1,6 +1,6 @@
 # 🍪 Cadillac Cookie Company — Cookie Concierge
 
-An AI-powered, full-stack order management and cookie pairing concierge built to showcase end-to-end production observability. This project demonstrates unified telemetry across user sessions, backend services, external databases, and Large Language Model (LLM) orchestration using Datadog RUM, APM, and LLM Observability.
+An AI-powered, full-stack order management and cookie pairing concierge built to showcase end-to-end prototype observability. This project demonstrates unified telemetry across user sessions, backend services, external databases, and Large Language Model (LLM) orchestration using Datadog RUM, APM, and LLM Observability.
 
 ---
 
